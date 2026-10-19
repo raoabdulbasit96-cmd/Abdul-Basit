@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>All Extension Converter</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F7FC;--surf:#fff;--ink:#0B1220;--mute:#5A6A84;--line:#E2E8F3;--sh:0 20px 60px rgba(15,23,42,.12);--acc:#2563EB;--acc2:#06B6D4;--accink:#fff;--f:'Plus Jakarta Sans',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070B16;--surf:#111A2D;--ink:#EAF0FA;--mute:#9AA9C2;--line:#222F4B;--sh:0 20px 60px rgba(0,0,0,.55)}}
+:root[data-theme="dark"]{--bg:#070B16;--surf:#111A2D;--ink:#EAF0FA;--mute:#9AA9C2;--line:#222F4B;--sh:0 20px 60px rgba(0,0,0,.55)}
+:root[data-accent="violet"]{--acc:#7C3AED;--acc2:#EC4899}
+:root[data-accent="sunset"]{--acc:#EA580C;--acc2:#E11D48}
+:root[data-accent="forest"]{--acc:#059669;--acc2:#0891B2}
+:root[data-accent="royal"]{--acc:#1E40AF;--acc2:#7C3AED}
+:root[data-accent="gold"]{--acc:#B45309;--acc2:#F59E0B}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:500 16px/1.6 var(--f);background:radial-gradient(900px 500px at 8% -5%,color-mix(in srgb,var(--acc) 16%,transparent),transparent 60%),radial-gradient(800px 500px at 100% 0,color-mix(in srgb,var(--acc2) 15%,transparent),transparent 60%),var(--bg);background-attachment:fixed}
+button,select,input{font-family:var(--f)}
+button{cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s,background .2s}
+button:focus-visible,select:focus-visible,#drop:focus-within,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--surf) 72%,transparent);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;max-width:980px;margin:0 auto;padding:12px 18px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:clamp(15px,4.6vw,19px);letter-spacing:-.01em}
+.mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;box-shadow:0 6px 16px color-mix(in srgb,var(--acc) 40%,transparent)}
+.ctl{display:flex;align-items:center;gap:8px}
+.dot{width:22px;height:22px;padding:0;border-radius:50%;border:2px solid var(--surf);box-shadow:0 0 0 1px var(--line)}
+.dot:hover{transform:scale(1.2);box-shadow:0 0 0 2px var(--acc)}
+.dot[data-a="ocean"]{background:linear-gradient(135deg,#2563EB,#06B6D4)}
+.dot[data-a="violet"]{background:linear-gradient(135deg,#7C3AED,#EC4899)}
+.dot[data-a="sunset"]{background:linear-gradient(135deg,#EA580C,#E11D48)}
+.dot[data-a="forest"]{background:linear-gradient(135deg,#059669,#0891B2)}
+.dot[data-a="royal"]{background:linear-gradient(135deg,#1E40AF,#7C3AED)}
+.dot[data-a="gold"]{background:linear-gradient(135deg,#B45309,#F59E0B)}
+.mode{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font-size:17px;margin-left:6px}
+.mode:hover{border-color:var(--acc)}
+.hero{padding:56px 18px 36px;text-align:center}
+h1{font-size:clamp(32px,7.4vw,54px);line-height:1.1;margin:0 auto 14px;font-weight:800;letter-spacing:-.03em;max-width:700px;background:linear-gradient(120deg,var(--ink) 25%,var(--acc) 70%,var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:0 auto 24px;color:var(--mute);max-width:540px;font-size:17px}
+.steps{display:flex;gap:8px 12px;flex-wrap:wrap;justify-content:center;font-weight:700;font-size:14px;color:var(--ink)}
+.steps span{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:color-mix(in srgb,var(--surf) 80%,transparent);border:1px solid var(--line)}
+.steps i{font-style:normal;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--accink);display:grid;place-items:center;font-size:12px}
+.card{max-width:620px;margin:0 auto;border:1.5px solid transparent;background:linear-gradient(var(--surf),var(--surf)) padding-box,linear-gradient(135deg,color-mix(in srgb,var(--acc) 70%,transparent),color-mix(in srgb,var(--acc2) 70%,transparent)) border-box;border-radius:24px;box-shadow:var(--sh);padding:24px;position:relative}
+.wrap{padding:0 14px;margin-top:-6px}
+.pair{display:grid;grid-template-columns:1fr 40px 1fr;gap:8px;align-items:end}
+.pair>div{min-width:0}
+label{display:block;font-size:12px;font-weight:800;color:var(--mute);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+.arrow{height:52px;display:grid;place-items:center;font-weight:800;font-size:22px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.pick{width:100%;margin:0;text-align:left;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-radius:14px;font-weight:800;font-size:18px;padding:13px 14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick:hover{border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 14%,transparent)}
+#drop{display:block;margin-top:18px;padding:30px 14px;text-align:center;border:2px dashed color-mix(in srgb,var(--acc) 50%,var(--line));border-radius:18px;background:color-mix(in srgb,var(--acc) 6%,transparent);cursor:pointer;color:var(--mute);font-size:14px;transition:all .2s}
+#drop:hover,#drop.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 13%,transparent);transform:translateY(-1px)}
+#drop svg{display:block;margin:0 auto 8px;color:var(--acc);padding:10px;width:50px;height:50px;border-radius:14px;background:color-mix(in srgb,var(--acc) 14%,transparent)}
+#drop b{display:block;color:var(--ink);font-size:17px;word-break:break-all;margin-bottom:2px}
+#file{position:absolute;opacity:0;width:1px;height:1px}
+#go{width:100%;margin-top:16px;padding:16px;border:0;border-radius:15px;font-weight:800;font-size:18px;letter-spacing:.01em;color:var(--accink);background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 10px 26px color-mix(in srgb,var(--acc) 40%,transparent)}
+#go:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 14px 32px color-mix(in srgb,var(--acc) 50%,transparent)}
+#go:disabled{opacity:.45;box-shadow:none;cursor:not-allowed}
+#msg{margin:14px 0 0;min-height:1.4em;color:var(--mute);font-size:15px}
+#msg.err{color:#DC2626}
+#out a,#out button{width:100%;text-align:left;font:inherit;display:block;margin-top:10px;padding:14px 16px;border:2px solid var(--acc);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:700;word-break:break-all;background:color-mix(in srgb,var(--acc) 9%,transparent)}
+#out a:hover,#out button:hover{background:color-mix(in srgb,var(--acc) 18%,transparent);transform:translateY(-1px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:620px;margin:22px auto 0}
+.chips p{width:100%;text-align:center;margin:0 0 4px;font-size:12px;font-weight:800;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.chip{border:1px solid var(--line);background:var(--surf);color:var(--ink);border-radius:999px;padding:8px 15px;font-weight:700;font-size:14px}
+.chip:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px);box-shadow:0 6px 14px color-mix(in srgb,var(--acc) 18%,transparent)}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:980px;margin:48px auto 0;padding:0 18px}
+.f{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px;transition:transform .2s,box-shadow .2s}
+.f:hover{transform:translateY(-4px);box-shadow:var(--sh)}
+.f::before{content:"🔒";display:grid;place-items:center;width:42px;height:42px;border-radius:12px;margin-bottom:12px;font-size:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 20%,transparent),color-mix(in srgb,var(--acc2) 20%,transparent))}
+.f:nth-child(2)::before{content:"⚡"}.f:nth-child(3)::before{content:"🎁"}
+.f h3{margin:0 0 4px;font-size:16px}
+.f p{margin:0;color:var(--mute);font-size:14px}
+footer{max-width:700px;margin:0 auto;padding:36px 18px 44px;text-align:center}
+small{display:block;color:var(--mute);font-size:13px}
+.own{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line);font-weight:800;font-size:15px;background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ov{position:fixed;inset:0;background:rgba(2,6,23,.6);backdrop-filter:blur(4px);z-index:9;display:flex;align-items:flex-start;justify-content:center;padding:env(safe-area-inset-top,0px) 10px 10px}
+.sheet{margin-top:10px;width:100%;max-width:560px;max-height:calc(100% - 20px);display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--sh)}
+.sheet input{width:100%;font-weight:700;font-size:17px;padding:12px;border:2px solid var(--acc);border-radius:12px;background:var(--bg);color:var(--ink)}
+.lst{overflow:auto;margin:10px 0;flex:1;min-height:80px}
+.gh{font-size:12px;font-weight:800;color:var(--acc);margin:14px 0 4px;text-transform:uppercase;letter-spacing:.08em}
+.it{display:block;width:100%;margin:0 0 4px;padding:10px 12px;text-align:left;font-weight:700;font-size:17px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px}
+.it:hover{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 8%,var(--bg))}
+.cl{margin-top:0;text-align:center;font-size:16px}
+@media (prefers-reduced-motion:no-preference){.hero{animation:fd .6s ease-out}@keyframes fd{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="top">
+<div class="logo"><span class="mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-3-3M18 16H6l3 3"/></svg></span>All Extension Converter</div>
+<div class="ctl" role="group" aria-label="Appearance">
+<button class="dot" data-a="ocean" aria-label="Ocean theme"></button><button class="dot" data-a="violet" aria-label="Violet theme"></button><button class="dot" data-a="sunset" aria-label="Sunset theme"></button><button class="dot" data-a="forest" aria-label="Forest theme"></button><button class="dot" data-a="royal" aria-label="Royal theme"></button><button class="dot" data-a="gold" aria-label="Gold theme"></button>
+<button class="mode" id="mode" aria-label="Toggle dark mode">◐</button>
+</div></div></header>
+<section class="hero">
+<h1>Convert any file in seconds</h1>
+<p class="sub">Pick the formats, add your file, and download the result. Everything runs on your device, so your files stay private.</p>
+<div class="steps"><span><i>1</i>Choose formats</span><span><i>2</i>Add your file</span><span><i>3</i>Download</span></div>
+</section>
+<div class="wrap"><div class="card">
+<div class="pair">
+ <div><label for="from">From</label><select id="from"></select></div>
+ <div class="arrow" aria-hidden="true">→</div>
+ <div><label for="to">To</label><select id="to"></select></div>
+</div>
+<label id="drop" for="file"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><b id="fname">Tap to choose a file</b><span id="fhint">or drop a file here</span></label>
+<input type="file" id="file">
+<button id="go" disabled>Convert</button>
+<p id="msg" role="status"></p>
+<div id="out"></div>
+</div>
+<div class="chips"><p>Popular conversions</p>
+<button class="chip" data-f="jpg" data-t="pdf">JPG to PDF</button><button class="chip" data-f="png" data-t="jpg">PNG to JPG</button><button class="chip" data-f="webp" data-t="png">WEBP to PNG</button><button class="chip" data-f="pdf" data-t="png">PDF to PNG</button><button class="chip" data-f="docx" data-t="pdf">DOCX to PDF</button><button class="chip" data-f="xlsx" data-t="csv">XLSX to CSV</button><button class="chip" data-f="csv" data-t="json">CSV to JSON</button><button class="chip" data-f="md" data-t="html">MD to HTML</button>
+</div></div>
+<div class="feat">
+<div class="f"><h3>Private by design</h3><p>Files are converted in your browser and never uploaded.</p></div>
+<div class="f"><h3>190+ extensions</h3><p>Search any format by name in the From and To lists.</p></div>
+<div class="f"><h3>Free, no sign-up</h3><p>Open the page, convert, download. Nothing to install.</p></div>
+</div>
+<footer><small>Every extension is listed, but a browser can only really convert some of them: images, PDF, Word (docx), spreadsheets, text and code, and audio to WAV. The top of the To list shows the formats that work for your file. Any other file can be packed into ZIP or GZ. Formats like EXE, RAR, 7Z, PSD and video-to-video need a server and can't be converted here.</small><p class="own">Owned by Abdul Basit</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+window.addEventListener('error',function(e){var d=document.getElementById('jserr');if(!d){d=document.createElement('div');d.id='jserr';d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99;background:#DC2626;color:#fff;padding:10px 14px;font:600 14px sans-serif';document.body.appendChild(d)}d.textContent='Page error: '+e.message+' (line '+e.lineno+'). Please update Chrome or send this message to the developer.'});
+const $=id=>document.getElementById(id);
+const CATS={'Word, Excel, PowerPoint, Access':['doc','docx','docm','dotx','xls','xlsx','xlsm','xlsb','xltx','csv','ppt','pptx','pptm','ppsx','potx','accdb','mdb'],
+'Text & documents':['txt','pdf','rtf','odt','ods','odp','md','xml','html','htm','json','log'],
+'Images':['jpg','jpeg','png','gif','bmp','tiff','tif','webp','svg','ico','heic','raw','psd','ai'],
+'Audio':['mp3','wav','aac','wma','ogg','flac','m4a','mid','midi','opus'],
+'Video':['mp4','avi','mkv','mov','wmv','flv','webm','mpeg','mpg','3gp','m4v'],
+'Archives':['zip','rar','7z','tar','gz','bz2','xz','iso','cab','arj'],
+'Programs & code':['exe','msi','bat','cmd','com','dll','sys','drv','app','apk','jar','class','py','java','c','cpp','cs','php','js','ts','css','sql'],
+'Windows & system':['ini','cfg','conf','reg','lnk','tmp','bak','dat','bin','inf','url','vbs','ps1'],
+'Internet & email':['eml','msg','pst','ost','ics','vcf','aspx','htaccess','shtml'],
+'Database & data':['db','sqlite','sqlite3','dbf','parquet','avro'],
+'Fonts & 3D':['ttf','otf','woff','woff2','eot','obj','stl','fbx','blend','gltf','glb'],
+'Disk & virtual machine':['vhd','vhdx','vmdk','vdi','ova','ovf','dmg','img','torrent']};
+const IMG=['jpg','jpeg','png','gif','bmp','tiff','tif','webp','svg','ico','heic'];
+const TAB=['csv','json','xls','xlsx','xlsm','xlsb','xltx','ods','dbf'];
+const TXT=['txt','md','xml','html','htm','shtml','aspx','log','css','js','ts','py','java','c','cpp','cs','php','sql','ini','cfg','conf','reg','bat','cmd','vbs','ps1','url','eml','ics','vcf','obj','gltf','rtf','htaccess'];
+const AV=['mp3','wav','aac','wma','ogg','flac','m4a','mid','midi','opus','mp4','avi','mkv','mov','wmv','flv','webm','mpeg','mpg','3gp','m4v'];
+const ZG=['zip','gz'],MAP={};
+[].concat.apply([],Object.keys(CATS).map(function(g){return CATS[g]})).forEach(k=>MAP[k]=ZG);
+IMG.forEach(k=>MAP[k]=['png','jpg','jpeg','webp','bmp','ico','svg','pdf',...ZG]);
+TAB.forEach(k=>MAP[k]=['csv','json','xlsx','xls','xlsm','xlsb','ods','dbf','html','txt',...ZG]);
+TXT.forEach(k=>MAP[k]=[...TXT,'pdf',...ZG]);
+AV.forEach(k=>MAP[k]=['wav',...ZG]);
+['docx','docm','dotx'].forEach(k=>MAP[k]=['html','txt','pdf',...ZG]);
+MAP.pdf=['png','jpg','txt','html',...ZG];MAP.zip=['extracted'];MAP.gz=['extracted'];
+Object.keys(MAP).forEach(k=>MAP[k]=MAP[k].filter(x=>x!==k));
+const MIME={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',html:'text/html',htm:'text/html',txt:'text/plain',json:'application/json',csv:'text/csv',pdf:'application/pdf',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'};
+const fromSel=$('from'),toSel=$('to'),fileIn=$('file'),go=$('go'),msg=$('msg'),out=$('out');
+for(const[g,l]of Object.entries(CATS)){const og=document.createElement('optgroup');og.label=g;l.forEach(k=>og.append(new Option('.'+k,k)));fromSel.append(og)}
+function fillTo(){toSel.innerHTML='';const ok=MAP[fromSel.value],mk=(g,l)=>{const og=document.createElement('optgroup');og.label=g;l.forEach(k=>{if(k!==fromSel.value)og.append(new Option(k==='extracted'?'Extracted files':'.'+k,k))});if(og.children.length)toSel.append(og)};mk('Works for this file',ok);for(const[g,l]of Object.entries(CATS))mk(g,l);toSel.value=ok[0];sync()}
+fromSel.value='jpg';
+const label=s=>s.selectedOptions[0]?s.selectedOptions[0].textContent:'';
+const pk=[fromSel,toSel].map(sel=>{const b=document.createElement('button');b.type='button';b.className='pick';b.setAttribute('aria-haspopup','dialog');sel.style.display='none';sel.before(b);b.onclick=()=>openPick(sel);return b});
+function sync(){pk.forEach((b,i)=>b.textContent=label([fromSel,toSel][i]))}
+function openPick(sel){
+  const d=document.createElement('div');d.className='ov';
+  d.innerHTML='<div class="sheet" role="dialog" aria-label="Choose format"><input type="search" placeholder="Search extension, e.g. png" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="lst"></div><button type="button" class="pick cl">Close</button></div>';
+  document.body.append(d);
+  const inp=d.querySelector('input'),lst=d.querySelector('.lst'),close=()=>d.remove();
+  d.onclick=e=>{if(e.target===d)close()};d.onkeydown=e=>{if(e.key==='Escape')close()};d.querySelector('.cl').onclick=close;
+  const render=()=>{let q=inp.value.trim().toLowerCase();if(q.startsWith('.'))q=q.slice(1);lst.innerHTML='';
+    [...sel.children].forEach(g=>{const items=[...g.children].filter(o=>!q||o.value.includes(q));if(!items.length)return;
+      const h=document.createElement('div');h.className='gh';h.textContent=g.label;lst.append(h);
+      items.forEach(o=>{const i=document.createElement('button');i.type='button';i.className='it';i.textContent=o.textContent;i.onclick=()=>{sel.value=o.value;sel.dispatchEvent(new Event('change'));sync();close()};lst.append(i)})});
+    if(!lst.children.length)lst.textContent='No match'};
+  inp.oninput=render;render();inp.focus();
+}
+fromSel.onchange=fillTo;fillTo();
+function pick(f){
+  if(!f)return;
+  let e=f.name.split('.').pop().toLowerCase();
+  if(MAP[e]){fromSel.value=e;fillTo()}
+  $('fname').textContent=f.name;$('fhint').textContent='';go.disabled=false;out.innerHTML='';msg.textContent='';msg.className='';
+}
+fileIn.onchange=()=>pick(fileIn.files[0]);
+const drop=$('drop');
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('on')};
+drop.ondragleave=()=>drop.classList.remove('on');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('on');const f=e.dataTransfer.files[0];if(f){fileIn.files=e.dataTransfer.files;pick(f)}};
+
+const wrap=b=>'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem}td,th{border:1px solid #999;padding:4px 8px}table{border-collapse:collapse}</style></head><body>'+b+'</body></html>';
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const blob=(d,t)=>new Blob([d],{type:MIME[t]});
+const canvasBlob=(c,t)=>new Promise(r=>c.toBlob(r,MIME[t],.92));
+function loadImg(f){return new Promise((res,rej)=>{const i=new Image(),u=URL.createObjectURL(f);i.onload=()=>res(i);i.onerror=()=>rej(new Error('Could not open the image'));i.src=u})}
+function textPdf(t){const d=new jspdf.jsPDF();let y=15;d.splitTextToSize(t,180).forEach(l=>{if(y>285){d.addPage();y=15}d.text(l,15,y);y+=6});return d.output('blob')}
+async function book(f,from){
+  if(from==='json'){let j=JSON.parse(await f.text());if(!Array.isArray(j))j=[j];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(j),'Sheet1');return wb}
+  return XLSX.read(await f.arrayBuffer(),{type:'array'});
+}
+const gz=async(f,m)=>new Response(f.stream().pipeThrough(new(m?CompressionStream:DecompressionStream)('gzip'))).blob();
+const rtf=t=>t.replace(/\{\\\*[^}]*\}/g,'').replace(/\\par[d]?/g,'\n').replace(/\\'([0-9a-f]{2})/gi,(m,h)=>String.fromCharCode(parseInt(h,16))).replace(/\\[a-z]+-?\d* ?/gi,'').replace(/[{}]/g,'').trim();
+function bmp(c){const w=c.width,h=c.height,d=c.getContext('2d').getImageData(0,0,w,h).data,rs=(w*3+3)&~3,sz=rs*h,b=new DataView(new ArrayBuffer(54+sz));b.setUint16(0,0x424D);b.setUint32(2,54+sz,true);b.setUint32(10,54,true);b.setUint32(14,40,true);b.setInt32(18,w,true);b.setInt32(22,h,true);b.setUint16(26,1,true);b.setUint16(28,24,true);b.setUint32(34,sz,true);for(let y=0;y<h;y++)for(let x=0;x<w;x++){const q=((h-1-y)*w+x)*4,o=54+y*rs+x*3;b.setUint8(o,d[q+2]);b.setUint8(o+1,d[q+1]);b.setUint8(o+2,d[q])}return new Blob([b],{type:'image/bmp'})}
+async function ico(c){const n=Math.min(256,Math.max(c.width,c.height)),k=document.createElement('canvas');k.width=k.height=n;const r=n/Math.max(c.width,c.height),w=c.width*r,h=c.height*r;k.getContext('2d').drawImage(c,(n-w)/2,(n-h)/2,w,h);const p=new Uint8Array(await(await canvasBlob(k,'png')).arrayBuffer()),d=new DataView(new ArrayBuffer(22));d.setUint16(2,1,true);d.setUint16(4,1,true);d.setUint8(6,n>=256?0:n);d.setUint8(7,n>=256?0:n);d.setUint16(10,1,true);d.setUint16(12,32,true);d.setUint32(14,p.length,true);d.setUint32(18,22,true);return new Blob([d,p],{type:'image/x-icon'})}
+async function wav(f){const ab=await new(window.AudioContext||window.webkitAudioContext)().decodeAudioData(await f.arrayBuffer()),n=ab.length,ch=Math.min(2,ab.numberOfChannels),dv=new DataView(new ArrayBuffer(44+n*ch*2)),W=(o,t)=>[...t].forEach((c,i)=>dv.setUint8(o+i,c.charCodeAt(0)));W(0,'RIFF');dv.setUint32(4,36+n*ch*2,true);W(8,'WAVEfmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,ch,true);dv.setUint32(24,ab.sampleRate,true);dv.setUint32(28,ab.sampleRate*ch*2,true);dv.setUint16(32,ch*2,true);dv.setUint16(34,16,true);W(36,'data');dv.setUint32(40,n*ch*2,true);const D=[];for(let c=0;c<ch;c++)D.push(ab.getChannelData(c));let o=44;for(let i=0;i<n;i++)for(let c=0;c<ch;c++){const v=Math.max(-1,Math.min(1,D[c][i]));dv.setInt16(o,v<0?v*32768:v*32767,true);o+=2}return new Blob([dv],{type:'audio/wav'})}
+async function convert(f,from,to){
+  const base=f.name.replace(/\.[^.]+$/,''),one=(b,n)=>[[n||base+'.'+to,b]];
+  if(to==='zip'){const z=new JSZip();z.file(f.name,f);return one(await z.generateAsync({type:'blob',compression:'DEFLATE'}))}
+  if(to==='gz')return one(await gz(f,1),f.name+'.gz');
+  if(to==='extracted'){
+    if(from==='gz')return [[base,await gz(f,0)]];
+    const z=await JSZip.loadAsync(f),r=[];for(const n in z.files)if(!z.files[n].dir)r.push([n.split('/').pop(),await z.files[n].async('blob')]);return r;
+  }
+  if(to==='wav')return one(await wav(f));
+  if(IMG.includes(from)){
+    const im=await loadImg(f),w=im.naturalWidth||800,h=im.naturalHeight||600;
+    const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    if(!['png','ico'].includes(to)){x.fillStyle='#fff';x.fillRect(0,0,w,h)}
+    x.drawImage(im,0,0,w,h);
+    if(to==='pdf'){const d=new jspdf.jsPDF({orientation:w>h?'l':'p',unit:'px',format:[w,h]});d.addImage(c.toDataURL('image/jpeg',.92),'JPEG',0,0,w,h);return one(d.output('blob'))}
+    if(to==='svg')return one(new Blob(['<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><image href="'+c.toDataURL('image/png')+'"/></svg>'],{type:'image/svg+xml'}));
+    if(to==='bmp')return one(bmp(c));
+    if(to==='ico')return one(await ico(c));
+    return one(await canvasBlob(c,to));
+  }
+  if(from==='pdf'){
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
+    if(to==='png'||to==='jpg'){
+      const r=[];
+      for(let i=1;i<=pdf.numPages;i++){
+        const p=await pdf.getPage(i),vp=p.getViewport({scale:2}),c=document.createElement('canvas');
+        c.width=vp.width;c.height=vp.height;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+        await p.render({canvasContext:x,viewport:vp}).promise;
+        r.push([base+'-'+i+'.'+to,await canvasBlob(c,to)]);
+      }
+      return r;
+    }
+    let t='';
+    for(let i=1;i<=pdf.numPages;i++){const tc=await(await pdf.getPage(i)).getTextContent();t+=tc.items.map(s=>s.str).join(' ')+'\n\n'}
+    return one(blob(to==='html'?wrap('<pre style="white-space:pre-wrap">'+esc(t)+'</pre>'):t,to));
+  }
+  if(['docx','docm','dotx'].includes(from)){
+    const ab=await f.arrayBuffer();
+    if(to==='html')return one(blob(wrap((await mammoth.convertToHtml({arrayBuffer:ab})).value),'html'));
+    const t=(await mammoth.extractRawText({arrayBuffer:ab})).value;
+    return one(to==='pdf'?textPdf(t):blob(t,'txt'));
+  }
+  if(TAB.includes(from)){
+    const wb=await book(f,from),ws=wb.Sheets[wb.SheetNames[0]];
+    if(to==='csv'||to==='txt')return one(blob(XLSX.utils.sheet_to_csv(ws),to));
+    if(to==='json')return one(blob(JSON.stringify(XLSX.utils.sheet_to_json(ws),null,2),'json'));
+    if(to==='html')return one(blob(wrap(XLSX.utils.sheet_to_html(ws)),'html'));
+    return one(new Blob([XLSX.write(wb,{bookType:to==='xls'?'biff8':to,type:'array'})]));
+  }
+  let t=await f.text();if(from==='rtf')t=rtf(t);
+  if(from==='md'&&(to==='html'||to==='htm'))return one(blob(wrap(marked.parse(t)),'html'));
+  if(to==='html'||to==='htm')return one(blob(wrap('<pre style="white-space:pre-wrap">'+esc(t)+'</pre>'),'html'));
+  if(to!=='txt'&&to!=='pdf')return one(blob(t,'txt'));
+  const plain=['html','htm','shtml','aspx'].includes(from)?new DOMParser().parseFromString(t,'text/html').body.textContent:t;
+  return one(to==='pdf'?textPdf(plain):blob(plain,'txt'));
+}
+const R=document.documentElement;
+try{['accent','theme'].forEach(k=>{const v=localStorage.getItem('fs-'+k);if(v)R.dataset[k]=v})}catch(e){}
+document.querySelectorAll('.dot').forEach(b=>b.onclick=()=>{R.dataset.accent=b.dataset.a;try{localStorage.setItem('fs-accent',b.dataset.a)}catch(e){}});
+$('mode').onclick=()=>{const d=R.dataset.theme?R.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;R.dataset.theme=d?'light':'dark';try{localStorage.setItem('fs-theme',R.dataset.theme)}catch(e){}};
+document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{fromSel.value=b.dataset.f;fillTo();toSel.value=b.dataset.t;sync();window.scrollTo({top:0,behavior:'smooth'})});
+const DL=window.claude?claude.use('downloads').catch(()=>null):Promise.resolve(null);
+async function addDl(n,b){
+  const d=await DL;
+  if(d){
+    const x=document.createElement('button');x.type='button';x.textContent='⬇ Download: '+n;
+    x.onclick=async()=>{
+      try{await d.save({filename:n,data:b});msg.className='';msg.textContent='Saved: '+n}
+      catch(e){if(e&&e.code==='declined')return;msg.className='err';msg.textContent=(e&&e.code==='rejected_extension')?'This file type cannot be downloaded here. Try PNG, JPG, PDF, CSV, TXT, ZIP or similar.':'Download failed. Please try again.'}
+    };
+    out.appendChild(x);
+  }else{
+    const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.textContent='Download: '+n;out.appendChild(a);
+  }
+}
+go.onclick=async()=>{
+  const f=fileIn.files[0];if(!f)return;
+  go.disabled=true;out.innerHTML='';msg.className='';msg.textContent='Converting…';
+  try{
+    if(!MAP[fromSel.value].includes(toSel.value)){const er=new Error('.'+fromSel.value+' to .'+toSel.value+' needs a server, so it cannot be done in a browser. Try one of these instead: '+MAP[fromSel.value].filter(x=>x!=='extracted').map(x=>'.'+x).join(', '));er.nc=1;throw er}const res=await convert(f,fromSel.value,toSel.value);
+    for(const [n,b] of res)await addDl(n,b);
+    msg.textContent='Done! Download your file below.';
+  }catch(e){msg.className='err';msg.textContent=(e.nc?'':'Conversion failed: ')+(e.message||'check that "From" matches your file')}
+  go.disabled=false;
+};
+</script>
+</body>
+</html>
